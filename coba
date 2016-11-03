@@ -48,23 +48,23 @@ from matplotlib.patches import PathPatch
 # use seaborn to change the default graphics to something nicer
 # and set a nice color palette
 import seaborn as sns
-sns.set_color_palette('Set1')
+sns.set_palette('Set1')
 
 # create the plot object
 fig, ax = plt.subplots(figsize=(8, 8))
 s = np.linspace(0, 100)
 
 # add carpentry constraint: trains <= 80 - soldiers
-plt.plot(s, 50 - 14 * x, lw=3, label='protein')
-plt.fill_between(s, 0, 50 - 14 * x, alpha=0.1)
+plt.plot(s, 80 - s, lw=3, label='carpentry')
+plt.fill_between(s, 0, 80 - s, alpha=0.1)
 
 # add finishing constraint: trains <= 100 - 2*soldiers
-plt.plot(s, 400 - 248 * x, lw=3, label='magnesium')
-plt.fill_between(s, 0, 400 - 248 * x, alpha=0.1)
+plt.plot(s, 100 - 2 * s, lw=3, label='finishing')
+plt.fill_between(s, 0, 100 - 2 * s, alpha=0.1)
 
 # add demains constraint: soldiers <= 40
-plt.plot(s, 400 - 243 * x, lw=3, label='demand')
-plt.fill_betweenx(s, 0, 400 - 243 * x, alpha=0.1)
+plt.plot(40 * np.ones_like(s), s, lw=3, label='demand')
+plt.fill_betweenx(s, 0, 40, alpha=0.1)
 
 # add non-negativity constraints
 plt.plot(np.zeros_like(s), s, lw=3, label='t non-negative')

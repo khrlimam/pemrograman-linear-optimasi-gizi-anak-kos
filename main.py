@@ -28,3 +28,10 @@ solver = solver.Solver(problem_name, pulp.LpMaximize)  # init the solver with ma
 solver.tujuan(maximize)  # add objective/fungsi tujuan
 solver.kendala(protein, magnesium, harga)  # add constraints/fungsi kendala
 solver.hasil(x, y)  # print result if solved
+
+# print max
+max_protein = 14 * x.value() + 57 * y.value()
+max_magnesium = 248 * x.value() + 243 * y.value()
+print "Max protein yang didapat sehari adalah {}g dari total minimal yang dibutuhkan (50g)".format(max_protein)
+print "Max magnesium yang didapat sehari adalah {}mg dari total minimal yang dibutuhkan (400mg)".format(max_magnesium)
+print "Dengan pengeluaran perhari {} dari 15000 jatah belanja perhari".format(2500 * x.value() + 2000 * y.value())
