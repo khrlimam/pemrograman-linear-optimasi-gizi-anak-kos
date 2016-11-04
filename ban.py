@@ -1,5 +1,6 @@
-import solver
 import pulp
+
+import solver
 
 ban_sepeda = 'ban sepeda'
 ban_motor = 'ban motor'
@@ -20,8 +21,8 @@ mesin2 = (mesin2 <= 800)
 mesin3 = 0 * x + 10 * y
 mesin3 = (mesin3 <= 800)
 
-#magics
-solver = solver.Solver(problem_name, pulp.LpMaximize) #init the solver
-solver.tujuan(maximize)
-solver.kendala(mesin1, mesin2, mesin3)
-solver.hasil(x,y)
+# magics
+solver = solver.Solver(problem_name, pulp.LpMaximize)  # init the solver
+solver.tujuan(maximize)  # tentukan tujuan yang kita inginkan
+solver.kendala(mesin1, mesin2, mesin3)  # tambahkan kendala yang kita buat
+solver.hasil(x, y)  # print hasil dari kedua variabel jika kasus diselesaikan
