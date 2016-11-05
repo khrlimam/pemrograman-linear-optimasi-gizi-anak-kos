@@ -71,14 +71,14 @@ plt.plot(np.zeros_like(s), s, lw=3, label='t non-negative')
 plt.plot(s, np.zeros_like(s), lw=3, label='s non-negative')
 
 # highlight the feasible region
-path = Path((
+path = Path([
     (0., 0.),
     (0., 80.),
     (20., 60.),
     (40., 20.),
     (40., 0.),
     (0., 0.),
-))
+])
 patch = PathPatch(path, label='feasible region', alpha=0.5)
 ax.add_patch(patch)
 

@@ -1,6 +1,10 @@
 import pulp
+import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
+from matplotlib.patches import PathPatch
+from matplotlib.path import Path
 
-import graphic
 import solver
 
 bayam = 'bayam'
@@ -38,14 +42,35 @@ print "Max magnesium yang didapat sehari adalah {}mg dari total minimal yang dib
 print "Dengan pengeluaran {:.0f}/hari dari jatah belanja 15000/perhari".format(2500 * x.value() + 2000 * y.value())
 
 # graphic
-graphic = graphic.Graphic(figsize=(8, 8),
-                          linspace=[0, 5, 1])
+sns.set_palette('Set1')
 
-graphic.lines({'equation': 50 - 14, 'label': 'protein'},
-              {'equation': 400 - 248, 'label': 'magnesium'},
-              {'equation': 15000 - 2500, 'label': 'harga'})
+# create the plot object
+fig, ax = plt.subplots(figsize=(8, 8))
+s = np.linspace(0, 10)
 
-graphic.nonnegative_constraints(x='x', y='y')
-graphic.feasible_region((0., 2.), (0., 1.), (0., 7.), (6., 0.), (3., 0.))
-graphic.setup(xlabel='bayam', ylabel='tempe', xlim=[-1, 10], ylim=[-1, 10], )
-graphic.show()
+plt.plot(s, 50 - s, lw=3, label='protein')
+plt.fill_between(s, 0, 50 - s, alpha=0.1)
+plt.plot(s, 400 - s, lw=3, label='magnesium')
+plt.fill_between(s, 0, 400 - s, alpha=0.1)
+# add demains constraint: soldiers <= 40
+plt.plot(s, 15000 - s, lw=3, label='harga')
+plt.fill_betweenx(s, 0, 15000 - s, alpha=0.1)
+
+# add non-negativity constraints
+plt.plot(np.zeros_like(s), s, lw=3, label='tempe non-negative')
+plt.plot(s, np.zeros_like(s), lw=3, label='bayam non-negative')
+
+# highlight the feasible region
+path = Path([
+    (0., 2.), (0., 1.), (0., 7.), (6., 0.), (3., 0.)
+])
+patch = PathPatch(path, label='feasible region', alpha=0.5)
+ax.add_patch(patch)
+
+# labels and stuff
+plt.xlabel('bayam', fontsize=16)
+plt.ylabel('tempe', fontsize=16)
+plt.xlim(-0.5, 100)
+plt.ylim(-0.5, 100)
+plt.legend(fontsize=14)
+plt.show()
