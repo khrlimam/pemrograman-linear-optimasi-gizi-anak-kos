@@ -18,6 +18,6 @@ class Solver:
         try:
             assert result == pulp.LpStatusOptimal
             for res in args:
-                print "Solusi variabel {} adalah {}".format(res.name, res.value())
+                print "Solusi variabel {} adalah {:.0f}".format(res.name, res.value())
         except AssertionError:
             print "Tidak ada penyelesaian!"

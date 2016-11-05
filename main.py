@@ -20,7 +20,7 @@ max_protein = 14 * x + 57 * y
 max_magnesium = 248 * x + 243 * y
 maximize = max_protein + max_magnesium
 
-# constrains / fungsi kendala
+# constraints / fungsi kendala
 protein = 14 * x + 57 * y
 protein = (protein >= 50)  # 14x+57y >= 50
 magnesium = 248 * x + 243 * y
