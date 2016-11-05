@@ -1,5 +1,5 @@
-import pulp
 import numpy as np
+import pulp
 import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib.patches import PathPatch
@@ -12,8 +12,8 @@ tempe = 'tempe'
 problem_name = 'Optimasi Gizi Anak Kos'
 
 # decision variables (variabel keputusan)
-x = pulp.LpVariable(bayam, lowBound=0, cat='Integer')
-y = pulp.LpVariable(tempe, lowBound=0, cat='Integer')
+x = pulp.LpVariable(bayam, lowBound=0, cat=pulp.LpInteger)  # define variable as kuadran 1
+y = pulp.LpVariable(tempe, lowBound=0, cat=pulp.LpInteger)  # define variable as kuadran 1
 
 # objective / fungsi tujuan
 max_protein = 14 * x + 57 * y
@@ -21,12 +21,9 @@ max_magnesium = 248 * x + 243 * y
 maximize = max_protein + max_magnesium
 
 # constraints / fungsi kendala
-protein = 14 * x + 57 * y
-protein = (protein >= 50)  # 14x+57y >= 50
-magnesium = 248 * x + 243 * y
-magnesium = (magnesium >= 400)  # 248x+243y >= 400
-harga = 2500 * x + 2000 * y
-harga = (harga <= 15000)  # 2500x+2000y <= 15000
+protein = 14 * x + 57 * y >= 50  # 14x+57y >= 50
+magnesium = 248 * x + 243 * y >= 400  # 248x+243y >= 400
+harga = 2500 * x + 2000 * y <= 15000 # 2500x+2000y <= 15000
 
 # magics
 solver = solver.Solver(problem_name, pulp.LpMaximize)  # init the solver with maximize solution
@@ -48,13 +45,12 @@ sns.set_palette('Set1')
 fig, ax = plt.subplots(figsize=(8, 8))
 s = np.linspace(0, 10)
 
-plt.plot(s, 50 - s, lw=3, label='protein')
-plt.fill_between(s, 0, 50 - s, alpha=0.1)
-plt.plot(s, 400 - s, lw=3, label='magnesium')
-plt.fill_between(s, 0, 400 - s, alpha=0.1)
-# add demains constraint: soldiers <= 40
-plt.plot(s, 15000 - s, lw=3, label='harga')
-plt.fill_betweenx(s, 0, 15000 - s, alpha=0.1)
+plt.plot(s, 50 / 7 - 14 / 7 * s, lw=3, label='protein')
+plt.fill_between(s, 0, 50 / 7 - 14 / 7 * s, alpha=0.1)
+plt.plot(s, 400 / 248 * s, lw=3, label='magnesium')
+plt.fill_between(s, 0, 400 / 248 * s, alpha=0.1)
+plt.plot(s, 15000 / 2000 - s, lw=3, label='harga')
+plt.fill_betweenx(s, 0, 15000 / 200 - s, alpha=0.1)
 
 # add non-negativity constraints
 plt.plot(np.zeros_like(s), s, lw=3, label='tempe non-negative')
@@ -70,7 +66,7 @@ ax.add_patch(patch)
 # labels and stuff
 plt.xlabel('bayam', fontsize=16)
 plt.ylabel('tempe', fontsize=16)
-plt.xlim(-0.5, 100)
-plt.ylim(-0.5, 100)
+plt.xlim(-1, 10)
+plt.ylim(-1, 10)
 plt.legend(fontsize=14)
 plt.show()
